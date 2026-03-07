@@ -6,6 +6,8 @@ from .views import (
     DepartmentRetrieveUpdateDestroyView,
     ProjectListCreateView,
     ProjectRetrieveUpdateDestroyView,
+    EmployeeProjectListCreateView,
+    EmployeeProjectRetrieveUpdateDestroyView,
 )
 
 urlpatterns = [
@@ -21,4 +23,8 @@ urlpatterns = [
     # PROJECT
     path('projects/', ProjectListCreateView.as_view(), name='project-list-create'),
     path('projects/<int:pk>/', ProjectRetrieveUpdateDestroyView.as_view(), name='project-detail'),
+
+    # EMPLOYEE PROJECT (JUNCTION TABLE)
+    path('employee-projects/', EmployeeProjectListCreateView.as_view(), name='employee-project-list-create'),
+    path('employee-projects/<int:pk>/', EmployeeProjectRetrieveUpdateDestroyView.as_view(), name='employee-project-detail'),
 ]

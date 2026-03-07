@@ -1,7 +1,5 @@
 from django.db import models
 
-# Create your models here.
-
 
 class Employee(models.Model):
     employee_id = models.AutoField(primary_key=True)
@@ -25,17 +23,30 @@ class Department(models.Model):
 
 class Project(models.Model):
     project_id = models.AutoField(primary_key=True)
-    employee = models.ForeignKey(
-        Employee,
-        on_delete=models.CASCADE,
-        related_name="projects"
-    )
+    project_name = models.CharField(max_length=50)
+
     department = models.ForeignKey(
         Department,
         on_delete=models.CASCADE,
         related_name="projects"
     )
-    project_name = models.CharField(max_length=50)
+
+    employees = models.ManyToManyField(
+        Employee,
+        through="EmployeeProject",
+        related_name="projects"
+    )
 
     def __str__(self):
         return self.project_name
+
+
+class EmployeeProject(models.Model):
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('employee', 'project')
+
+    def __str__(self):
+        return f"{self.employee} - {self.project}"
